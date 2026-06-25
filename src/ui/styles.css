@@ -1718,6 +1718,27 @@ a.btn-sage {
   align-self: center;
 }
 
+.menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+.menu-footer:hover {
+  border-color: var(--mist);
+}
+
 .daily-table {
   display: grid;
   gap: 6px;

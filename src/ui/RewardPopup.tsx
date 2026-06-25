@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Landmark } from '../game/chapters'
 import { Icon } from './icons'
+import { BchpLogo } from './Logo'
 import './reward.css'
 
 // Всплывающая карточка достопримечательности (награда за каждые 5 уровней),
@@ -53,6 +54,9 @@ export function RewardPopup({ landmark, onClose }: { landmark: Landmark; onClose
             <Icon name="pin" s={13} /> {landmark.region}
           </div>
           <p className="reward-pop-info">{landmark.info}</p>
+          <div className="reward-pop-brand">
+            <BchpLogo sm />
+          </div>
           <button className="btn-primary" style={{ width: '100%' }} onClick={onClose}>
             <Icon name="check" s={17} /> Забрать в коллекцию
           </button>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Icon } from './icons'
+import { BchpLogo } from './Logo'
 import { sfx } from './sound'
 
 interface Step {
@@ -49,7 +50,8 @@ export function Intro({ onClose }: { onClose: () => void }) {
   return (
     <div className="tip-overlay">
       <div className="tip-card intro-card" onClick={(e) => e.stopPropagation()}>
-        <div className="intro-ic">
+        <BchpLogo sm />
+        <div className="intro-ic" style={{ marginTop: 10 }}>
           <Icon name={step.icon} s={34} />
         </div>
         <h2 className="intro-title">{step.title}</h2>

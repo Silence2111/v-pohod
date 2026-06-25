@@ -90,5 +90,11 @@
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--ink-soft);
-  margin: 10px 0 16px;
+  margin: 10px 0 14px;
+}
+.reward-pop-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+  opacity: 0.85;
 }

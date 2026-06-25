@@ -9,6 +9,7 @@ import { CHAPTERS, chapterOf } from '../game/chapters'
 import { evalQuest, questLabel } from '../game/quests'
 import { Confetti } from './Confetti'
 import { RewardPopup } from './RewardPopup'
+import { BchpLogo } from './Logo'
 import { sfx, haptic } from './sound'
 import { Icon } from './icons'
 
@@ -216,7 +217,8 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
 
       {/* Связка с реальными походами */}
       <div className="card bridge">
-        <div className="bridge-head">
+        <BchpLogo sm />
+        <div className="bridge-head" style={{ marginTop: 10 }}>
           <span className="bridge-ic">
             <Icon name="signpost" s={26} />
           </span>

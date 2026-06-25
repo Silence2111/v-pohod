@@ -5,6 +5,7 @@ import { ACHIEVEMENTS, ACHV_BY_ID } from '../game/achievements'
 import { todayKey } from '../game/rng'
 import { BCHP_URL, BCHP_NAME } from '../game/bridge'
 import { SceneHero, Mascot } from './illustrations'
+import { BchpLogo } from './Logo'
 import { Icon } from './icons'
 
 interface Props {
@@ -158,6 +159,12 @@ export function Menu({ onPlay, onDaily, onOnline, onTutorial }: Props) {
           </div>
         </div>
       )}
+
+      {/* Подвал — бренд БЧП */}
+      <a href={BCHP_URL} target="_blank" rel="noopener noreferrer" className="menu-footer">
+        <BchpLogo sm />
+        <span>Создано для программы «{BCHP_NAME}»</span>
+      </a>
 
       {/* Результаты «Похода дня» */}
       {dailyDates.length > 0 && (
