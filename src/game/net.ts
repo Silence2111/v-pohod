@@ -34,6 +34,7 @@ const PEER_OPTS = { config: { iceServers: ICE } }
 type Msg =
   | { type: 'state'; state: GameState }
   | { type: 'action'; action: Action }
+  | { type: 'chat'; from: string; text: string }
 
 function genCode(): string {
   const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789' // без похожих символов
@@ -46,6 +47,7 @@ export interface HostHandle {
   role: 'host'
   code: string
   broadcast: (state: GameState) => void
+  sendChat: (from: string, text: string) => void
   count: () => number
   close: () => void
 }
@@ -53,6 +55,7 @@ export interface HostHandle {
 export interface GuestHandle {
   role: 'guest'
   send: (action: Action) => void
+  sendChat: (from: string, text: string) => void
   close: () => void
 }
 
@@ -64,6 +67,7 @@ export function createHost(opts: {
   onAction: (action: Action) => void
   onPeers: (n: number) => void
   onError: (msg: string) => void
+  onChat: (from: string, text: string) => void
 }): HostHandle {
   const code = genCode()
   const peer = new Peer(PREFIX + code, PEER_OPTS)
@@ -81,6 +85,18 @@ export function createHost(opts: {
     conn.on('data', (d) => {
       const m = d as Msg
       if (m && m.type === 'action') opts.onAction(m.action)
+      else if (m && m.type === 'chat') {
+        opts.onChat(m.from, m.text)
+        // ретранслируем остальным гостям (кроме отправителя)
+        for (const c of conns) {
+          if (c === conn) continue
+          try {
+            c.send(m)
+          } catch {
+            /* ignore */
+          }
+        }
+      }
     })
     conn.on('close', () => {
       const i = conns.indexOf(conn)
@@ -97,6 +113,16 @@ export function createHost(opts: {
       for (const c of conns) {
         try {
           c.send({ type: 'state', state })
+        } catch {
+          /* ignore */
+        }
+      }
+    },
+    sendChat(from, text) {
+      opts.onChat(from, text)
+      for (const c of conns) {
+        try {
+          c.send({ type: 'chat', from, text })
         } catch {
           /* ignore */
         }
@@ -119,6 +145,7 @@ export function joinRoom(
   opts: {
     onState: (state: GameState) => void
     onStatus: (status: 'connecting' | 'connected' | 'closed' | 'error') => void
+    onChat: (from: string, text: string) => void
   },
 ): GuestHandle {
   const peer = new Peer(undefined as unknown as string, PEER_OPTS)
@@ -131,6 +158,7 @@ export function joinRoom(
     conn.on('data', (d) => {
       const m = d as Msg
       if (m && m.type === 'state') opts.onState(m.state)
+      else if (m && m.type === 'chat') opts.onChat(m.from, m.text)
     })
     conn.on('close', () => opts.onStatus('closed'))
     conn.on('error', () => opts.onStatus('error'))
@@ -142,6 +170,14 @@ export function joinRoom(
     send(action) {
       try {
         conn?.send({ type: 'action', action })
+      } catch {
+        /* ignore */
+      }
+    },
+    sendChat(from, text) {
+      opts.onChat(from, text) // показываем своё сразу
+      try {
+        conn?.send({ type: 'chat', from, text })
       } catch {
         /* ignore */
       }

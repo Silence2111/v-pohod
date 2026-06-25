@@ -523,7 +523,68 @@ a.btn-sage {
   justify-content: space-between;
 }
 
+/* ===== Баннер хода ===== */
+.turn-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-left: 5px solid var(--accent, var(--clay));
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.tb-avatar {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.tb-text {
+  flex: 1;
+  min-width: 0;
+}
+.tb-name {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--forest);
+}
+.tb-gender {
+  color: var(--muted);
+  font-weight: 700;
+}
+.tb-hint {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.tb-round {
+  flex: none;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--accent, var(--clay));
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+}
+@media (max-width: 560px) {
+  .tb-round {
+    display: none;
+  }
+}
+
 /* ===== Board ===== */
+.board-col {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
 .board-wrap {
   position: relative;
   background: linear-gradient(160deg, #f2f1f8, #ecebf4);

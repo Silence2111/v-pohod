@@ -1,0 +1,94 @@
+.reward-pop {
+  position: relative;
+  width: 420px;
+  max-width: 92vw;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line-soft);
+  overflow: hidden;
+  animation: rewardPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes rewardPop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.reward-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  box-shadow: var(--shadow-sm);
+}
+.reward-photo {
+  position: relative;
+  height: 220px;
+  background: linear-gradient(160deg, #5e42c0, var(--clay-deep));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.reward-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+.reward-photo-fallback {
+  font-size: 72px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+.reward-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--clay-deep);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+.reward-pop-body {
+  padding: 16px 18px 18px;
+}
+.reward-pop-name {
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--forest);
+  letter-spacing: -0.01em;
+}
+.reward-pop-region {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--clay);
+  margin-top: 3px;
+}
+.reward-pop-info {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 10px 0 16px;
+}

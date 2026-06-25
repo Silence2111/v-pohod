@@ -87,6 +87,7 @@ export interface GameState {
   round: number
   weather: WeatherId
   weatherSuppressed: boolean // «Тёплый привал» Хранителя лагеря
+  weatherRerolls: number // доступные перебросы погоды (даются на перевале/промеж. цели)
   storyTokens: number // жетоны истории команды
   commandCards: CardId[] // общая «рука» командных карт
   jointTaskDone: boolean // совместная задача выполнена

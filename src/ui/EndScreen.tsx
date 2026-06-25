@@ -7,6 +7,7 @@ import type { LevelResult } from '../game/profile'
 import { ACHV_BY_ID } from '../game/achievements'
 import { CHAPTERS, chapterOf } from '../game/chapters'
 import { Confetti } from './Confetti'
+import { RewardPopup } from './RewardPopup'
 import { sfx, haptic } from './sound'
 import { Icon } from './icons'
 
@@ -22,6 +23,7 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
   const [copied, setCopied] = useState(false)
   const [newAchv, setNewAchv] = useState<string[]>([])
   const [levelRes, setLevelRes] = useState<LevelResult | null>(null)
+  const [showReward, setShowReward] = useState(false)
   const [hikeDone, setHikeDone] = useState(() => loadProfile().realHike)
   const recorded = useRef(false)
   const isChapter = state.mode === 'chapter' && state.level != null
@@ -32,7 +34,11 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
     recorded.current = true
     const res = recordGame(state)
     setNewAchv(res.newAchievements)
-    if (isChapter && state.level != null) setLevelRes(completeLevel(state.level))
+    if (isChapter && state.level != null) {
+      const lr = completeLevel(state.level)
+      setLevelRes(lr)
+      if (lr.reward) setShowReward(true)
+    }
     sfx.win()
     haptic(30)
     if (res.newAchievements.some((id) => id !== 'real_traveler')) {
@@ -81,6 +87,9 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
   return (
     <div className="app">
       <Confetti />
+      {showReward && levelRes?.reward && (
+        <RewardPopup landmark={levelRes.reward} onClose={() => setShowReward(false)} />
+      )}
       <div className="card end">
         <div className="brandmark" style={{ justifyContent: 'center' }}>
           <span className="leaf">

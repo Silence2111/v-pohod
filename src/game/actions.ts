@@ -20,6 +20,7 @@ export type Action =
   | { t: 'resolveTile'; i: number }
   | { t: 'resolveEvent'; i: number }
   | { t: 'dismissTip' }
+  | { t: 'rerollWeather' }
 
 export function applyAction(s: GameState, a: Action): GameState {
   switch (a.t) {
@@ -57,5 +58,7 @@ export function applyAction(s: GameState, a: Action): GameState {
       return E.resolveEvent(s, a.i)
     case 'dismissTip':
       return E.dismissTip(s)
+    case 'rerollWeather':
+      return E.rerollWeather(s)
   }
 }

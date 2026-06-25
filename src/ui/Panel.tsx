@@ -18,6 +18,7 @@ export interface Actions {
   startTrade: (artifact: ArtifactId) => void
   playCard: (card: CardId) => void
   resolvePlayerTarget: (id: number) => void
+  rerollWeather: () => void
   cancelPending: () => void
   endTurn: () => void
 }
@@ -198,6 +199,12 @@ export function Panel({ state, a }: { state: GameState; a: Actions }) {
                 <Icon name="rescuer" s={16} /> Спасательная операция
               </button>
             </>
+          )}
+
+          {state.weatherRerolls > 0 && (
+            <button className="btn-secondary" onClick={a.rerollWeather} title="Доступно после перевала">
+              <Icon name="cloudy" s={16} /> Перебросить погоду ({state.weatherRerolls})
+            </button>
           )}
 
           <button className="btn-sage" onClick={a.endTurn}>

@@ -1,0 +1,56 @@
+.journal-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.journal-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #1fa567, #5236af);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.journal-list {
+  display: grid;
+  gap: 6px;
+}
+.journal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: 13px;
+}
+.journal-row.is-locked {
+  opacity: 0.5;
+}
+.journal-mini {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 8px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-soft);
+  color: var(--muted);
+  background: #fff;
+}
+.journal-mini svg {
+  width: 100%;
+  height: 100%;
+}
+.journal-name {
+  font-weight: 700;
+  color: var(--forest);
+}
+.journal-count {
+  margin-left: auto;
+  font-weight: 800;
+  color: var(--clay);
+}

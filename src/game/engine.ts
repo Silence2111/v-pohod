@@ -112,6 +112,7 @@ export function createGame(
     round: 1,
     weather: 'cloudy',
     weatherSuppressed: false,
+    weatherRerolls: 0,
     storyTokens: 0,
     commandCards: [...CARD_ORDER], // небольшой стартовый набор: по одной карте
     jointTaskDone: false,
@@ -176,6 +177,20 @@ function fireTip(s: GameState, id: string) {
 export function dismissTip(prev: GameState): GameState {
   const s = clone(prev)
   s.tip = null
+  return s
+}
+
+// Переброс погоды тура — доступен только после перевала (промежуточной цели)
+export function rerollWeather(prev: GameState): GameState {
+  if (prev.weatherRerolls <= 0) return prev
+  const s = clone(prev)
+  const prevW = s.weather
+  let w = WEATHER_ORDER[Math.floor(Math.random() * WEATHER_ORDER.length)]
+  if (w === prevW) w = WEATHER_ORDER[(WEATHER_ORDER.indexOf(w) + 1) % WEATHER_ORDER.length]
+  s.weather = w
+  s.weatherSuppressed = false
+  s.weatherRerolls -= 1
+  log(s, WEATHER[w].icon, `Погода переброшена: ${WEATHER[w].name} — ${WEATHER[w].desc}`, true)
   return s
 }
 
@@ -301,10 +316,16 @@ export function moveTo(prev: GameState, target: number): GameState {
 
   // Достижение целей
   if (tile.kind === 'intermediate' && !p.visitedIntermediate) {
+    const teamHadIntermediate = s.players.some((x) => x.visitedIntermediate)
     p.visitedIntermediate = true
     grantStory(s, 2)
-    log(s, '🚩', `${p.name} достиг Промежуточной цели!`, true)
+    log(s, '🚩', `${p.name} достиг Промежуточной цели (перевал)!`, true)
     fireTip(s, 'intermediate')
+    // Перевал: команда получает возможность перебросить погоду (один раз)
+    if (!teamHadIntermediate) {
+      s.weatherRerolls += 1
+      log(s, '🌦️', `Перевал пройден — теперь можно перебросить погоду тура.`, true)
+    }
   }
   // Совместная задача: доставить артефакт на Промежуточную цель
   if (tile.kind === 'intermediate' && !s.jointTaskDone && p.artifacts.length > 0) {
@@ -362,16 +383,16 @@ function revealAround(s: GameState, p: Player, center: number) {
       newly++
     }
   }
-  reveal(center)
+  reveal(center) // плитку, куда встал, видно всегда
   const centerTile = s.tiles[center]
-  // Лес скрывает соседние закрытые плитки (Компас снимает скрытость)
-  const forestBlocks = centerTile.terrain === 'forest' && !hasArtifact(p, 'compass')
-  if (!forestBlocks) {
-    for (const nb of neighbors(center, s.cols, s.rows)) reveal(nb)
-  }
-  // Компас: всегда видны соседи текущей плитки
-  if (hasArtifact(p, 'compass')) {
-    for (const nb of neighbors(center, s.cols, s.rows)) reveal(nb)
+  // Соседние клетки открывает ТОЛЬКО Разведчик; другим — только с Компасом.
+  const canSeeAround = p.role === 'scout' || hasArtifact(p, 'compass')
+  if (canSeeAround) {
+    // Лес скрывает соседей (Компас снимает скрытость)
+    const forestBlocks = centerTile.terrain === 'forest' && !hasArtifact(p, 'compass')
+    if (!forestBlocks) {
+      for (const nb of neighbors(center, s.cols, s.rows)) reveal(nb)
+    }
   }
   if (newly > 0) {
     grantStory(s, newly)

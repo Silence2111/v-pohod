@@ -21,6 +21,9 @@ import { OnlineLobby } from './OnlineLobby'
 import { Intro } from './Intro'
 import { WorldMap } from './WorldMap'
 import { CardsGallery } from './CardsGallery'
+import { Journal } from './Journal'
+import { Chat } from './Chat'
+import type { ChatMsg } from './Chat'
 import { Mascot } from './illustrations'
 import { loadProfile, markIntroSeen } from '../game/profile'
 import { CHAPTERS, chapterOf, levelInChapter, levelParams } from '../game/chapters'
@@ -51,6 +54,7 @@ export function App() {
   const [guestStatus, setGuestStatus] = useState<string | null>(null)
   const [showIntro, setShowIntro] = useState(false)
   const [pendingChapter, setPendingChapter] = useState<PendingChapter | null>(null)
+  const [chatMsgs, setChatMsgs] = useState<ChatMsg[]>([])
 
   // Демо для показа: ?demo / ?demo=end / ?demo=tip / ?demo=handoff / ?view=setup
   useEffect(() => {
@@ -157,6 +161,9 @@ export function App() {
     })
   }
 
+  const addChatMsg = (from: string, text: string) =>
+    setChatMsgs((prev) => [...prev, { id: (prev[prev.length - 1]?.id ?? 0) + 1, from, text }])
+
   const onCreateRoom = () => {
     setOnline('host')
     setHandoffEnabled(false)
@@ -165,6 +172,7 @@ export function App() {
       onAction: hostApplyRemote,
       onPeers: setPeers,
       onError: () => setHostCode(null),
+      onChat: addChatMsg,
     })
   }
 
@@ -173,6 +181,7 @@ export function App() {
     setHandoffEnabled(false)
     setGuestStatus('connecting')
     netRef.current = joinRoom(code, {
+      onChat: addChatMsg,
       onState: (s) => {
         setGame(s)
         setView('play')
@@ -334,6 +343,10 @@ export function App() {
       sfx.pickup()
       dispatch({ t: 'resolvePlayer', id })
     },
+    rerollWeather: () => {
+      sfx.weather()
+      dispatch({ t: 'rerollWeather' })
+    },
     cancelPending: () => dispatch({ t: 'cancelPending' }),
     endTurn: () => {
       sfx.click()
@@ -367,6 +380,11 @@ export function App() {
         sfx.step()
       }
     }
+  }
+
+  const onSendChat = (text: string) => {
+    const from = online === 'host' ? 'Ведущий' : 'Игрок'
+    netRef.current?.sendChat(from, text)
   }
 
   const w = WEATHER[g.weather]
@@ -428,17 +446,33 @@ export function App() {
           </button>
         </div>
       ) : (
-        <div className="hint">
-          <span className="ic">
-            <Icon name={g.players[g.current].role} s={18} />
+        <div className="turn-banner" style={{ ['--accent' as string]: g.players[g.current].color }}>
+          <span className="tb-avatar" style={{ background: g.players[g.current].color }}>
+            <Icon name={g.players[g.current].role} s={20} />
           </span>
-          Ход игрока <b style={{ margin: '0 4px' }}>{g.players[g.current].name}</b>. Бросьте кубик,
-          двигайтесь к подсвеченным плиткам, помогайте команде — затем завершите ход.
+          <div className="tb-text">
+            <div className="tb-name">
+              Ход: {g.players[g.current].name}{' '}
+              <span className="tb-gender">{g.players[g.current].gender === 'm' ? '♂' : '♀'}</span>
+            </div>
+            <div className="tb-hint">
+              {!g.turn.rolled
+                ? 'Бросьте кубик, затем идите на подсвеченную плитку'
+                : g.turn.moved
+                  ? 'Ход сделан — помогите команде и завершите ход'
+                  : 'Идите на плитку с порогом ≤ вашего броска'}
+            </div>
+          </div>
+          <span className="tb-round">Раунд {g.round}</span>
         </div>
       )}
 
       <div className="game">
-        <Board state={g} onTileClick={onTileClick} />
+        <div className="board-col">
+          <Board state={g} onTileClick={onTileClick} />
+          {online && <Chat messages={chatMsgs} onSend={onSendChat} />}
+          <Journal state={g} />
+        </div>
         {!needWeather ? (
           <Panel state={g} a={a} />
         ) : (
