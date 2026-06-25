@@ -143,9 +143,18 @@ export function Menu({ onPlay, onDaily, onOnline, onTutorial }: Props) {
         </button>
       </div>
 
-      {tab === 'rules' && <RulesPanel />}
-      {tab === 'mission' && <MissionPanel />}
-      {tab === 'achv' && <AchvPanel unlocked={profile.achievements} />}
+      {tab !== 'none' && (
+        <div className="tip-overlay" onClick={() => setTab('none')}>
+          <div className="tip-card menu-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setTab('none')} title="Закрыть">
+              <Icon name="swap" s={16} />
+            </button>
+            {tab === 'rules' && <RulesPanel />}
+            {tab === 'mission' && <MissionPanel />}
+            {tab === 'achv' && <AchvPanel unlocked={profile.achievements} />}
+          </div>
+        </div>
+      )}
 
       {/* Результаты «Похода дня» */}
       {dailyDates.length > 0 && (
@@ -174,7 +183,8 @@ export function Menu({ onPlay, onDaily, onOnline, onTutorial }: Props) {
 
 function RulesPanel() {
   return (
-    <div className="card" style={{ marginTop: 14 }}>
+    <div>
+      <h2 className="modal-h">Правила</h2>
       <div className="section-label">
         <Icon name="target" s={14} /> Цель
       </div>
@@ -197,9 +207,10 @@ function RulesPanel() {
 
 function MissionPanel() {
   return (
-    <div className="card" style={{ marginTop: 14 }}>
+    <div>
+      <h2 className="modal-h">Миссия</h2>
       <div className="section-label">
-        <Icon name="heart" s={14} /> Миссия
+        <Icon name="heart" s={14} /> Зачем эта игра
       </div>
       <p style={{ marginTop: 0 }}>
         «В Поход!» — игровая модель настоящего похода. Цель — вдохновить ребят идти в{' '}
@@ -215,7 +226,8 @@ function MissionPanel() {
 
 function AchvPanel({ unlocked }: { unlocked: string[] }) {
   return (
-    <div className="card" style={{ marginTop: 14 }}>
+    <div>
+      <h2 className="modal-h">Достижения</h2>
       <div className="section-label">
         <Icon name="starFill" s={14} /> Значки
       </div>

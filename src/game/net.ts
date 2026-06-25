@@ -8,6 +8,29 @@ import type { Action } from './actions'
 
 const PREFIX = 'vpohod-room-'
 
+// ICE-серверы: STUN (для своей сети) + бесплатный TURN (ретрансляция через NAT/файрвол).
+// Без TURN соединение между игроками за разными роутерами часто не устанавливается.
+const ICE = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+  {
+    urls: 'turn:openrelay.metered.ca:80',
+    username: 'openrelayproject',
+    credential: 'openrelayproject',
+  },
+  {
+    urls: 'turn:openrelay.metered.ca:443',
+    username: 'openrelayproject',
+    credential: 'openrelayproject',
+  },
+  {
+    urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+    username: 'openrelayproject',
+    credential: 'openrelayproject',
+  },
+]
+const PEER_OPTS = { config: { iceServers: ICE } }
+
 type Msg =
   | { type: 'state'; state: GameState }
   | { type: 'action'; action: Action }
@@ -43,7 +66,7 @@ export function createHost(opts: {
   onError: (msg: string) => void
 }): HostHandle {
   const code = genCode()
-  const peer = new Peer(PREFIX + code)
+  const peer = new Peer(PREFIX + code, PEER_OPTS)
   const conns: DataConnection[] = []
   let lastState: GameState | null = null
 
@@ -98,7 +121,7 @@ export function joinRoom(
     onStatus: (status: 'connecting' | 'connected' | 'closed' | 'error') => void
   },
 ): GuestHandle {
-  const peer = new Peer()
+  const peer = new Peer(undefined as unknown as string, PEER_OPTS)
   let conn: DataConnection | null = null
   opts.onStatus('connecting')
 
