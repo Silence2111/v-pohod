@@ -184,6 +184,23 @@ a.btn-sage {
   text-align: center;
   margin: 14px 0 22px;
 }
+.bchp-logo {
+  height: 36px;
+  width: auto;
+  display: inline-block;
+}
+.bchp-logo.sm {
+  height: 26px;
+}
+.bchp-logo-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.bchp-logo-link:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
 .brandmark {
   display: inline-flex;
   align-items: center;
@@ -738,8 +755,12 @@ a.btn-sage {
   }
 }
 .tile.closed {
-  background: repeating-linear-gradient(45deg, #e8e6f0, #e8e6f0 9px, #dfdded 9px, #dfdded 18px);
-  color: rgba(82, 54, 175, 0.4);
+  background: #e8e7f0;
+  border-color: rgba(82, 54, 175, 0.06);
+  color: rgba(82, 54, 175, 0.22);
+}
+.tile.closed:not(.reachable) {
+  box-shadow: none;
 }
 .tile.special {
   box-shadow:

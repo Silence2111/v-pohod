@@ -101,7 +101,7 @@ export function Board({ state, onTileClick, onRoll }: Props) {
                   )}
                 </>
               ) : (
-                <Icon name="eye" s={20} style={{ opacity: 0.5 }} />
+                <Icon name="eye" s={16} style={{ opacity: 0.28 }} />
               )}
 
               {occupants.length > 0 && (

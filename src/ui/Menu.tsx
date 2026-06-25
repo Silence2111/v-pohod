@@ -30,6 +30,9 @@ export function Menu({ onPlay, onDaily, onOnline, onTutorial }: Props) {
   return (
     <div className="app">
       <div className="title">
+        <a href={BCHP_URL} target="_blank" rel="noopener noreferrer" className="bchp-logo-link">
+          <img className="bchp-logo" src={`${import.meta.env.BASE_URL}bchp-logo.svg`} alt="Больше, чем путешествие" />
+        </a>
         <div className="brandmark">
           <span className="leaf">
             <Icon name="boot" s={26} />

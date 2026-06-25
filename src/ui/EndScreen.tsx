@@ -92,6 +92,12 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
         <RewardPopup landmark={levelRes.reward} onClose={() => setShowReward(false)} />
       )}
       <div className="card end">
+        <img
+          className="bchp-logo"
+          src={`${import.meta.env.BASE_URL}bchp-logo.svg`}
+          alt="Больше, чем путешествие"
+          style={{ margin: '0 auto 6px', display: 'block' }}
+        />
         <div className="brandmark" style={{ justifyContent: 'center' }}>
           <span className="leaf">
             <Icon name="peak" s={26} />

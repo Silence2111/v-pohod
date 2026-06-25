@@ -416,6 +416,7 @@ export function App() {
 
       <div className="topbar">
         <div className="brandmark">
+          <img className="bchp-logo sm" src={`${import.meta.env.BASE_URL}bchp-logo.svg`} alt="БЧП" />
           <span className="leaf">
             <Icon name={g.mode === 'daily' ? 'signpost' : online ? 'wifi' : 'boot'} s={20} />
           </span>
