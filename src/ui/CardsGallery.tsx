@@ -23,7 +23,7 @@ export function CardsGallery({ onBack }: { onBack: () => void }) {
         <span className="ic">
           <Icon name="pin" s={18} />
         </span>
-        Карточки мест России — награда за каждые 5 уровней. Собрано {collected.size} из{' '}
+        Карточки мест России — награда за каждые 3 уровня. Собрано {collected.size} из{' '}
         {LANDMARKS.length}.
       </div>
 

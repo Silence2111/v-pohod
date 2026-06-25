@@ -106,9 +106,9 @@ export const LANDMARKS: Landmark[] = [
   { id: 'manpupuner', name: 'Маньпупунёр', region: 'Республика Коми', emoji: '🗿', wiki: 'Маньпупунёр', info: 'Семь столбов выветривания — одно из чудес России.' },
 ]
 
-// Карточка-награда за достижение уровня (levelGlobal — сколько всего пройдено)
+// Карточка-награда за каждый 3-й уровень (levelGlobal — сколько всего пройдено)
 export function rewardForLevel(levelGlobal: number): Landmark | null {
-  if (levelGlobal % 5 !== 0) return null
-  const idx = (levelGlobal / 5 - 1) % LANDMARKS.length
+  if (levelGlobal % 3 !== 0) return null
+  const idx = (levelGlobal / 3 - 1) % LANDMARKS.length
   return LANDMARKS[idx]
 }

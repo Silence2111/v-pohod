@@ -35,7 +35,7 @@ export function WorldMap({ onPlay, onBack, onCards }: Props) {
         <span className="ic">
           <Icon name="signpost" s={18} />
         </span>
-        Проходите уровни по порядку. Каждые 5 уровней — карточка достопримечательности России, а за
+        Проходите уровни по порядку. Каждые 3 уровня — карточка достопримечательности России, а за
         главу — приглашение в настоящий поход.
       </div>
 
@@ -73,7 +73,7 @@ export function WorldMap({ onPlay, onBack, onCards }: Props) {
                     const g = startG + i
                     const isDone = g < done
                     const isCurrent = g === done
-                    const reward = (i + 1) % 5 === 0
+                    const reward = (i + 1) % 3 === 0
                     return (
                       <button
                         key={i}

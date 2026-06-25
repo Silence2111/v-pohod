@@ -9,6 +9,7 @@ import { TerrainScene } from './terrains'
 interface Props {
   state: GameState
   onTileClick: (index: number) => void
+  onRoll?: () => void
 }
 
 const KIND_LABEL: Record<string, string> = {
@@ -17,7 +18,7 @@ const KIND_LABEL: Record<string, string> = {
   main: 'Финиш',
 }
 
-export function Board({ state, onTileClick }: Props) {
+export function Board({ state, onTileClick, onRoll }: Props) {
   const cur = state.players[state.current]
   const pend = state.pending
 
@@ -50,6 +51,7 @@ export function Board({ state, onTileClick }: Props) {
           key={`${state.round}-${state.current}-${state.turn.rolled}-${state.turn.lastRoll}`}
           value={state.turn.lastRoll}
           rolled={state.turn.rolled}
+          onRoll={onRoll}
         />
       )}
       <div className="board" style={{ gridTemplateColumns: `repeat(${state.cols}, 1fr)` }}>

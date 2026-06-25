@@ -6,6 +6,7 @@ import { recordGame, setRealHike, loadProfile, completeLevel } from '../game/pro
 import type { LevelResult } from '../game/profile'
 import { ACHV_BY_ID } from '../game/achievements'
 import { CHAPTERS, chapterOf } from '../game/chapters'
+import { evalQuest, questLabel } from '../game/quests'
 import { Confetti } from './Confetti'
 import { RewardPopup } from './RewardPopup'
 import { sfx, haptic } from './sound'
@@ -155,6 +156,29 @@ export function EndScreen({ state, onRestart, onMenu, onWorld }: Props) {
                   {ACHV_BY_ID[id]?.name}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {state.quests.length > 0 && (
+          <div className="end-quests">
+            <div className="section-label" style={{ justifyContent: 'center' }}>
+              <Icon name="target" s={14} /> Задания:{' '}
+              {state.quests.filter((q) => evalQuest(state, q).done).length}/{state.quests.length}
+            </div>
+            <div className="quest-list">
+              {state.quests.map((q) => {
+                const done = evalQuest(state, q).done
+                return (
+                  <div key={q.id} className={`quest-row ${done ? 'done' : ''}`}>
+                    <span className="quest-check">
+                      <Icon name={done ? 'check' : 'target'} s={15} />
+                    </span>
+                    <span className="quest-label">{questLabel(q)}</span>
+                    <span className="quest-prog">{done ? '✓' : '—'}</span>
+                  </div>
+                )
+              })}
             </div>
           </div>
         )}

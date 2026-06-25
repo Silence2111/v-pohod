@@ -22,6 +22,7 @@ import {
 } from './data'
 import { generateMap, neighbors } from './map'
 import { EVENTS, EVENT_BY_ID } from './events'
+import { generateQuests } from './quests'
 
 // ===================== ВСПОМОГАТЕЛЬНОЕ =====================
 
@@ -120,6 +121,7 @@ export function createGame(
     seenTips: [],
     event: null,
     achv: { mountains: 0, swamps: 0, trades: 0, cards: 0, events: 0 },
+    quests: generateQuests(map.tiles, players.length, SIZES[size].targetRounds, opts.rng),
     turn: emptyTurn(),
     log: [],
     targetRounds: SIZES[size].targetRounds,

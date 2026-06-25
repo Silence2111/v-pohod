@@ -1,0 +1,51 @@
+.quest-list {
+  display: grid;
+  gap: 6px;
+}
+.quest-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border-radius: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
+.quest-row.done {
+  background: var(--mint-tint);
+  border-color: var(--mint-tint-bd);
+}
+.quest-check {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--clay);
+  border: 1px solid var(--line);
+}
+.quest-row.done .quest-check {
+  background: var(--sage);
+  color: #fff;
+  border-color: transparent;
+}
+.quest-label {
+  font-weight: 600;
+  color: var(--ink);
+}
+.quest-row.done .quest-label {
+  color: var(--sage-deep);
+}
+.quest-prog {
+  margin-left: auto;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--clay);
+}
+.quest-row.done .quest-prog {
+  color: var(--sage);
+}

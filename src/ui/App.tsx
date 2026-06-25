@@ -22,6 +22,7 @@ import { Intro } from './Intro'
 import { WorldMap } from './WorldMap'
 import { CardsGallery } from './CardsGallery'
 import { Journal } from './Journal'
+import { Quests } from './Quests'
 import { Chat } from './Chat'
 import type { ChatMsg } from './Chat'
 import { Mascot } from './illustrations'
@@ -469,7 +470,8 @@ export function App() {
 
       <div className="game">
         <div className="board-col">
-          <Board state={g} onTileClick={onTileClick} />
+          <Board state={g} onTileClick={onTileClick} onRoll={a.rollStep} />
+          {!needWeather && <Quests state={g} />}
           {online && <Chat messages={chatMsgs} onSend={onSendChat} />}
           <Journal state={g} />
         </div>

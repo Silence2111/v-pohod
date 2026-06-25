@@ -95,6 +95,7 @@ export interface GameState {
   seenTips: string[] // уже показанные подсказки (каждая 1 раз за партию)
   event: string | null // активное событие на плитке (id из EVENTS)
   achv: GameAchvStats // счётчики для достижений
+  quests: import('./quests').QuestSpec[] // задания уровня
   turn: TurnState
   log: LogEntry[]
   // вспом. для способностей, требующих выбора цели
