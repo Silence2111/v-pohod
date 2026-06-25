@@ -61,6 +61,7 @@ export function App() {
   const [chatMsgs, setChatMsgs] = useState<ChatMsg[]>([])
   const [demoReward, setDemoReward] = useState(false)
   const questDoneRef = useRef(0)
+  const [moveDoneHidden, setMoveDoneHidden] = useState(false)
 
   // Демо для показа: ?demo / ?demo=end / ?demo=tip / ?demo=handoff / ?view=setup
   useEffect(() => {
@@ -396,6 +397,7 @@ export function App() {
         if (totalArtifacts(ns) > before) sfx.pickup()
         else sfx.step()
         haptic(10)
+        if (ns.turn.moved && ns.phase === 'turn') setMoveDoneHidden(false) // показать плашку «завершить ход»
       } else {
         sfx.step()
       }
@@ -422,6 +424,27 @@ export function App() {
       {handoffTo === null && !g.event && g.tip && (
         <TipCard tipId={g.tip} onClose={() => dispatch({ t: 'dismissTip' })} />
       )}
+
+      {/* Плашка после хода: завершить без скролла к панели */}
+      {!needWeather &&
+        g.turn.moved &&
+        !moveDoneHidden &&
+        handoffTo === null &&
+        !g.event &&
+        !g.tip && (
+          <div className="move-prompt">
+            <button className="mp-close" onClick={() => setMoveDoneHidden(true)} title="Остаться (помочь команде)">
+              <Icon name="swap" s={15} />
+            </button>
+            <span className="mp-title">
+              <Icon name="check" s={16} /> Ход сделан
+            </span>
+            <span className="mp-hint">Помогите команде или завершите ход</span>
+            <button className="btn-sage mp-end" onClick={a.endTurn}>
+              <Icon name="check" s={17} /> Завершить ход
+            </button>
+          </div>
+        )}
 
       <div className="topbar">
         <div className="brandmark">

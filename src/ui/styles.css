@@ -1901,6 +1901,74 @@ a.btn-sage {
   box-shadow: var(--ring);
 }
 
+/* ===== Плашка после хода ===== */
+.move-prompt {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 9px 9px 18px;
+  box-shadow: var(--shadow-lg);
+  animation: mpPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  max-width: calc(100vw - 24px);
+}
+@keyframes mpPop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.move-prompt .mp-close {
+  order: 3;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.move-prompt .mp-close:hover {
+  border-color: var(--mist);
+}
+.mp-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--sage-deep);
+}
+.mp-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+.move-prompt .mp-end {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+@media (max-width: 560px) {
+  .mp-hint {
+    display: none;
+  }
+  .move-prompt {
+    bottom: 12px;
+    padding: 8px 8px 8px 14px;
+  }
+}
+
 /* ===== Кнопка звука ===== */
 .sound-toggle {
   position: fixed;
