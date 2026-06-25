@@ -193,8 +193,9 @@ a.btn-sage {
   height: 26px;
 }
 .bchp-logo-link {
-  display: inline-block;
-  margin-bottom: 10px;
+  display: block;
+  margin: 0 auto 12px;
+  width: fit-content;
   transition: transform 0.15s ease, filter 0.15s ease;
 }
 .bchp-logo-link:hover {
