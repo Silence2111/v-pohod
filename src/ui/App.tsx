@@ -26,6 +26,8 @@ import { Quests } from './Quests'
 import { Chat } from './Chat'
 import type { ChatMsg } from './Chat'
 import { Mascot } from './illustrations'
+import { RewardPopup } from './RewardPopup'
+import { LANDMARKS } from '../game/chapters'
 import { loadProfile, markIntroSeen } from '../game/profile'
 import { CHAPTERS, chapterOf, levelInChapter, levelParams } from '../game/chapters'
 import type { TerrainType } from '../game/types'
@@ -56,6 +58,7 @@ export function App() {
   const [showIntro, setShowIntro] = useState(false)
   const [pendingChapter, setPendingChapter] = useState<PendingChapter | null>(null)
   const [chatMsgs, setChatMsgs] = useState<ChatMsg[]>([])
+  const [demoReward, setDemoReward] = useState(false)
 
   // Демо для показа: ?demo / ?demo=end / ?demo=tip / ?demo=handoff / ?view=setup
   useEffect(() => {
@@ -70,6 +73,10 @@ export function App() {
     }
     if (window.location.search.includes('view=world')) {
       setView('world')
+      return
+    }
+    if (window.location.search.includes('reward')) {
+      setDemoReward(true)
       return
     }
     if (!window.location.search.includes('demo')) return
@@ -196,6 +203,9 @@ export function App() {
     return (
       <>
         {showIntro && <Intro onClose={() => setShowIntro(false)} />}
+        {demoReward && (
+          <RewardPopup landmark={LANDMARKS[0]} onClose={() => setDemoReward(false)} />
+        )}
         <Menu
           onPlay={() => setView('world')}
           onDaily={() => setView('daily')}
