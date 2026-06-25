@@ -1,5 +1,6 @@
 import { loadProfile } from '../game/profile'
 import { LANDMARKS } from '../game/chapters'
+import { BchpLogo } from './Logo'
 import { Icon } from './icons'
 
 export function CardsGallery({ onBack }: { onBack: () => void }) {
@@ -11,6 +12,7 @@ export function CardsGallery({ onBack }: { onBack: () => void }) {
           <Icon name="swap" s={15} /> Назад
         </button>
         <div className="brandmark">
+          <BchpLogo sm />
           <span className="leaf">
             <Icon name="camera" s={20} />
           </span>

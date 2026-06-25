@@ -112,6 +112,11 @@ export const sfx = {
     tone(N.G5, 0.1, { type: 'triangle', gain: 0.1, delay: 0.08 })
     tone(N.C6, 0.2, { type: 'triangle', gain: 0.1, delay: 0.16 })
   },
+  quest: () => {
+    // задание выполнено — короткий приятный аккорд
+    tone(N.G5, 0.12, { type: 'triangle', gain: 0.1 })
+    tone(N.C6, 0.18, { type: 'triangle', gain: 0.1, delay: 0.1 })
+  },
   error: () => tone(180, 0.18, { type: 'sawtooth', gain: 0.05, slideTo: 120 }),
   win: () => {
     // короткая радостная фанфара (мажор)

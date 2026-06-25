@@ -1,6 +1,7 @@
 import { loadProfile } from '../game/profile'
 import { CHAPTERS, LEVELS_PER_CHAPTER, chapterOf, LANDMARKS } from '../game/chapters'
 import { TerrainScene } from './terrains'
+import { BchpLogo } from './Logo'
 import { Icon } from './icons'
 
 interface Props {
@@ -21,6 +22,7 @@ export function WorldMap({ onPlay, onBack, onCards }: Props) {
           <Icon name="swap" s={15} /> В меню
         </button>
         <div className="brandmark">
+          <BchpLogo sm />
           <span className="leaf">
             <Icon name="route" s={20} />
           </span>

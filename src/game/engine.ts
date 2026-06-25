@@ -22,7 +22,7 @@ import {
 } from './data'
 import { generateMap, neighbors } from './map'
 import { EVENTS, EVENT_BY_ID } from './events'
-import { generateQuests } from './quests'
+import { generateQuests, evalQuest } from './quests'
 
 // ===================== ВСПОМОГАТЕЛЬНОЕ =====================
 
@@ -663,7 +663,10 @@ function computeStars(s: GameState): number {
   const inTime = s.round <= s.targetRounds
   const everyoneContributed = s.players.every((p) => p.usedPassive || p.usedSpecial)
   const storyOk = !hasImpressions(s) || s.storyTokens >= Math.floor(s.tiles.length * 0.3)
+  const allQuests = s.quests.length > 0 && s.quests.every((q) => evalQuest(s, q).done)
 
+  // Выполнить все задания уровня — гарантированные 3 звезды (сильный стимул)
+  if (allQuests) return 3
   if (s.round > Math.ceil(s.targetRounds * 1.6)) return 1
   if (inTime && everyoneContributed && storyOk) return 3
   return 2

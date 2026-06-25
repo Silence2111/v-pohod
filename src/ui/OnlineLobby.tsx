@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Icon } from './icons'
+import { BchpLogo } from './Logo'
 import { sfx } from './sound'
 
 interface Props {
@@ -50,6 +51,7 @@ export function OnlineLobby({
           <Icon name="swap" s={15} /> В меню
         </button>
         <div className="brandmark">
+          <BchpLogo sm />
           <span className="leaf">
             <Icon name="wifi" s={20} />
           </span>

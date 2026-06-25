@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { MapSize, RoleId, Gender } from '../game/types'
 import { ROLES, ROLE_ORDER, SIZES, PLAYER_COLORS, TERRAIN, WEATHER, ARTIFACTS } from '../game/data'
 import type { PlayerConfig } from '../game/engine'
+import { BchpLogo } from './Logo'
 import { Icon } from './icons'
 
 interface Props {
@@ -53,6 +54,7 @@ export function Setup({ daily, chapter, online, handoff, onHandoffChange, onStar
           <Icon name="swap" s={15} /> В меню
         </button>
         <div className="brandmark">
+          <BchpLogo sm />
           <span className="leaf">
             <Icon name={daily ? 'signpost' : 'boot'} s={20} />
           </span>

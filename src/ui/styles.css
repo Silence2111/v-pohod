@@ -201,6 +201,17 @@ a.btn-sage {
   transform: translateY(-1px);
   filter: brightness(1.05);
 }
+@media (max-width: 560px) {
+  .bchp-logo {
+    height: 28px;
+  }
+  .bchp-logo.sm {
+    height: 20px;
+  }
+  .topbar .bchp-logo.sm {
+    display: none; /* в тесном топбаре игры на телефоне прячем, чтобы не сжимало заголовок */
+  }
+}
 .brandmark {
   display: inline-flex;
   align-items: center;

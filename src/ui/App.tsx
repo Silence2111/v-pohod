@@ -4,6 +4,7 @@ import * as E from '../game/engine'
 import type { PlayerConfig } from '../game/engine'
 import { applyAction } from '../game/actions'
 import type { Action } from '../game/actions'
+import { evalQuest } from '../game/quests'
 import { createHost, joinRoom } from '../game/net'
 import type { NetHandle, HostHandle, GuestHandle } from '../game/net'
 import { WEATHER } from '../game/data'
@@ -59,6 +60,7 @@ export function App() {
   const [pendingChapter, setPendingChapter] = useState<PendingChapter | null>(null)
   const [chatMsgs, setChatMsgs] = useState<ChatMsg[]>([])
   const [demoReward, setDemoReward] = useState(false)
+  const questDoneRef = useRef(0)
 
   // Демо для показа: ?demo / ?demo=end / ?demo=tip / ?demo=handoff / ?view=setup
   useEffect(() => {
@@ -136,6 +138,7 @@ export function App() {
       opts = { mode: 'daily', dailyKey: todayKey(), rng: mulberry32(hashStr('vpohod-' + todayKey())) }
     }
     const ns = E.createGame(players, useSize, opts)
+    questDoneRef.current = ns.quests.filter((q) => evalQuest(ns, q).done).length
     setGame(ns)
     setHandoffTo(null)
     setView('play')
@@ -292,6 +295,12 @@ export function App() {
     const ns = applyAction(g, action)
     setGame(ns)
     if (online === 'host') (netRef.current as HostHandle)?.broadcast(ns)
+    const done = ns.quests.filter((q) => evalQuest(ns, q).done).length
+    if (done > questDoneRef.current) {
+      sfx.quest()
+      haptic(15)
+    }
+    questDoneRef.current = done
     return ns
   }
 
